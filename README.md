@@ -4,7 +4,7 @@ This is a backend service built for a hiring assignment. The application accepts
 
 The service is built with Node.js, Express, TypeScript, and MongoDB, and it integrates with the Google Gemini AI for advanced analysis. It is designed to run in a serverless environment like Vercel and is also fully containerized with Docker.
 
-**Live URL (Vercel):** [INSERT YOUR VERCEL DEPLOYMENT URL HERE]
+**Live URL (Vercel):**   //url to be added
 
 ---
 
