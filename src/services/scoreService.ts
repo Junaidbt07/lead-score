@@ -17,7 +17,7 @@ const DECISION_MAKER_KEYWORDS = [
 const INFLUENCER_KEYWORDS = ["manager", "senior", "lead", "principal"];
 
 
-const applyRuleLayer = (lead: ILead, offer: IOffer): number => {
+export const applyRuleLayer = (lead: ILead, offer: IOffer): number => {
   let ruleScore = 0;
   const roleLower = lead.role.toLowerCase();
   const industryLower = lead.industry.toLowerCase();
