@@ -4,7 +4,7 @@ This is a backend service built for a hiring assignment. The application accepts
 
 The service is built with Node.js, Express, TypeScript, and MongoDB, and it integrates with the Google Gemini AI for advanced analysis. It is designed to run in a serverless environment like Vercel and is also fully containerized with Docker.
 
-**Live URL (Vercel):**   //url to be added
+**Live URL (Vercel):** https://lead-score-pearl.vercel.app/
 
 ---
 
@@ -243,6 +243,3 @@ The service is now running at `http://localhost:5000`. You can use the same Post
 ```bash
 docker stop lead-scorer-app
 ```
-
----
-
