@@ -15,30 +15,35 @@ const DECISION_MAKER_KEYWORDS = [
   "chief",
 ];
 const INFLUENCER_KEYWORDS = ["manager", "senior", "lead", "principal"];
-
+const ADJACENT_KEYWORDS = ["software", "logistics", "retail", "b2b", "saas"];
 
 export const applyRuleLayer = (lead: ILead, offer: IOffer): number => {
   let ruleScore = 0;
-  const roleLower = lead.role.toLowerCase();
-  const industryLower = lead.industry.toLowerCase();
+  const roleLower = lead.role ? lead.role.toLowerCase() : "";
+  const industryLower = lead.industry ? lead.industry.toLowerCase() : "";
 
-  if (DECISION_MAKER_KEYWORDS.some((keyword) => roleLower.includes(keyword))) {
+  // 1. Role Relevance (max 20)
+  if (roleLower && DECISION_MAKER_KEYWORDS.some((keyword) => roleLower.includes(keyword))) {
     ruleScore += 20;
-  } else if (INFLUENCER_KEYWORDS.some((keyword) => roleLower.includes(keyword))) {
+  } else if (roleLower && INFLUENCER_KEYWORDS.some((keyword) => roleLower.includes(keyword))) {
     ruleScore += 10;
   }
 
+  // 2. Industry Match (max 20)
   const icpIndustries = offer.ideal_use_cases.map((icp) => icp.toLowerCase());
 
-  if (icpIndustries.some((icp) => icp.includes(industryLower))) {
-    ruleScore += 20;
+  // checking for an empty string first.
+  if (industryLower) {
+    // 2a. Exact Match (+20) 
+    if (icpIndustries.includes(industryLower)) {
+      ruleScore += 20;
+    }
+    // 2b. Adjacent Match (+10) 
+    else if (ADJACENT_KEYWORDS.some((adj) => industryLower.includes(adj))) {
+      ruleScore += 10;
+    }
   }
-  else if (
-    icpIndustries.some((icp) => icp.includes("saas")) &&
-    industryLower.includes("software")
-  ) {
-    ruleScore += 10;
-  }
+
 
   if (
     lead.name &&

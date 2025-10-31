@@ -23,7 +23,7 @@ describe("applyRuleLayer", () => {
     expect(ruleScore).toBe(50);
   });
 
-  test("should score 40/50 for an influencer with an adjacent industry", () => {
+  test("should score 30/50 for an influencer with an adjacent industry", () => {
     const lead = {
       name: "Sarah Jenkins",
       role: "Marketing Manager",
@@ -34,7 +34,7 @@ describe("applyRuleLayer", () => {
     } as unknown as ILead;
 
     const ruleScore = applyRuleLayer(lead, mockOffer);
-    expect(ruleScore).toBe(40);
+    expect(ruleScore).toBe(30);
   });
 
   test("should score 10/50 for an irrelevant lead", () => {
@@ -51,7 +51,7 @@ describe("applyRuleLayer", () => {
     expect(ruleScore).toBe(10);
   });
 
-  test("should score 40/50 for a lead with missing bio (fails completeness)", () => {
+  test("should score 30/50 for a lead with missing bio (fails completeness)", () => {
     const lead = {
       name: "Priya Singh",
       role: "Chief Operating Officer",
@@ -59,10 +59,10 @@ describe("applyRuleLayer", () => {
       industry: "Retail",
       location: "Mumbai",
       linkedin_bio: "",
-    } as unknown as ILead;
+    }  as ILead;
 
     const ruleScore = applyRuleLayer(lead, mockOffer);
-    expect(ruleScore).toBe(40);
+    expect(ruleScore).toBe(30);
   });
 
   test("should score 20/50 for a completely empty lead object", () => {
@@ -73,9 +73,9 @@ describe("applyRuleLayer", () => {
       industry: "",
       location: "",
       linkedin_bio: "",
-    } as unknown as ILead;
+    } as ILead;
 
     const ruleScore = applyRuleLayer(lead, mockOffer);
-    expect(ruleScore).toBe(20);
+    expect(ruleScore).toBe(0);
   });
 });
