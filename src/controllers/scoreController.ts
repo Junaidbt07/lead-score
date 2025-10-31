@@ -2,22 +2,23 @@ import { Request, Response } from "express";
 import { runScoringPipeline } from "../services/scoreService";
 
 
-export const triggerScoring = (req: Request, res: Response) => {
+export const triggerScoring = async (req: Request, res: Response) => {
   try {
-    // Immediately respond to the client
-    res.status(202).json({
-      message:
-        "Scoring process initiated. This may take several minutes. Check GET /api/results for status.",
+    // --- THIS IS THE FIX ---
+    // I am  now AWAITING the pipeline to finish.
+    // This will hold the connection open and force Vercel to wait this fix i just tested when vercel is on cold start(free tier ).
+    console.log("[Controller] Starting pipeline... (This may take a while)");
+    await runScoringPipeline();
+    console.log("[Controller] Pipeline finished.");
+
+    // Now we respond with 200 (OK) because the job is done.
+    res.status(200).json({
+      message: "Scoring process complete.",
     });
 
-  
-    runScoringPipeline().catch((err) => {
-      console.error("A critical error occurred in the scoring pipeline:", err);
-    });
-    
   } catch (error: any) {
     console.error("Error triggering scoring pipeline:", error.message);
-    // This would catch synchronous errors in the setup, not in the pipeline itself
-    res.status(500).json({ message: "Failed to initiate scoring" });
+    res.status(500).json({ message: "Failed to run scoring pipeline" });
   }
 };
+
